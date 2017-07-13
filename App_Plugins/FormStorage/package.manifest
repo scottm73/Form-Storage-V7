@@ -1,0 +1,45 @@
+{
+    propertyEditors: [
+        {
+            alias: "FormStorageV7",
+            name: "Form Storage",
+            icon: "icon-inbox",
+            group: "Form Storage",
+            editor: {
+                view: "~/App_Plugins/FormStorage/FormStorage.html",
+				hideLabel: true,
+            },
+			prevalues: {
+				fields: [
+					{
+						label: "Alias",
+						description: "Select the form alias whose entries will be displayed.",
+						key: "alias",
+						view: "textstring"
+					},
+					{
+						label: "Grid Height",
+						description: "The height of the grid, in pixels. When left blank, the default value is 300.",
+						key: "gridHeight",
+						view: "number"
+					},
+					{
+						label: "Records Per Page",
+						description: "The number of records displayed per page. When left blank, the default value is 5.",
+						key: "recordsPerPage",
+						view: "number"
+					},
+				]
+			}
+        }
+    ],
+    javascript: [
+		'//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js',
+		'//cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js',
+        '~/App_Plugins/FormStorage/js/FormStorage.controller.js'
+    ],
+	css: [
+		'//cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css',
+		'//cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css'
+	]
+}
