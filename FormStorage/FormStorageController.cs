@@ -7,6 +7,7 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,7 +22,8 @@ using Umbraco.Web.Mvc;
 
 namespace FormStorage.Controllers
 {
-	public class FormStorageController : SurfaceController
+
+    public class FormStorageController : SurfaceController
 	{
 		private static readonly UmbracoDatabase DatabaseConnection = ApplicationContext.Current.DatabaseContext.Database;
 		private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -234,7 +236,9 @@ namespace FormStorage.Controllers
             }
             string downloadfileName = alias + ".csv";
             if (!string.IsNullOrEmpty(filename)) { downloadfileName = filename + ".csv"; }
-            byte[] fileContents = Encoding.ASCII.GetBytes(resultData);
+
+            byte[] byteData = Encoding.UTF8.GetBytes(resultData);
+            byte[] fileContents = Encoding.UTF8.GetPreamble().Concat(byteData).ToArray();
             return File(fileContents, "text/csv", downloadfileName);
         }
 
