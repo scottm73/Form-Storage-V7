@@ -69,7 +69,7 @@ namespace FormStorage
 					FormStorageEntryModel formStorageEntry = new FormStorageEntryModel();
 					formStorageEntry.SubmissionID = formStorageSubmission.SubmissionID;
 					formStorageEntry.FieldAlias = currentField.Key;
-					formStorageEntry.Value = currentField.Value;
+					formStorageEntry.Value = !string.IsNullOrEmpty(currentField.Value) ? currentField.Value : string.Empty;
 					try
 					{
 						DatabaseConnection.Save(formStorageEntry);

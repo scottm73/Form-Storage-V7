@@ -100,27 +100,30 @@ namespace FormStorage.Controllers
                     {
                         foreach (string fieldName in filterFieldList)
                         {
-                            string filterValue = Request.Params[fieldName];
-                            if (fieldName == "period")
+                            if (((IDictionary<string, Object>)currentRecord).ContainsKey(fieldName))
                             {
-                                if (!string.IsNullOrEmpty(filterValue))
+                                string filterValue = Request.Params[fieldName];
+                                if (fieldName == "period")
                                 {
-                                    int filterDays = 0;
-                                    int.TryParse(filterValue, out filterDays);
-
-                                    TimeSpan timeSpan = DateTime.Now.Subtract((DateTime)currentRecord["datetime"]);
-                                    if (timeSpan.TotalDays > (filterDays + 1))
+                                    if (!string.IsNullOrEmpty(filterValue))
                                     {
-                                        filteredOut = true;
-                                        break;
+                                        int filterDays = 0;
+                                        int.TryParse(filterValue, out filterDays);
+
+                                        TimeSpan timeSpan = DateTime.Now.Subtract((DateTime)currentRecord["datetime"]);
+                                        if (timeSpan.TotalDays > (filterDays + 1))
+                                        {
+                                            filteredOut = true;
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                            else
-                            if (!currentRecord[fieldName].ToString().ToUpper().Contains(filterValue.ToUpper()))
-                            {
-                                filteredOut = true;
-                                break;
+                                else
+                                if (!currentRecord[fieldName].ToString().ToUpper().Contains(filterValue.ToUpper()))
+                                {
+                                    filteredOut = true;
+                                    break;
+                                }
                             }
                         }
                     }
