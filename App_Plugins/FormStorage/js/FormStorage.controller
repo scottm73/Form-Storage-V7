@@ -102,12 +102,21 @@ function setupSubmissionsGrid(alias, gridHeight, recordsPerPage, fields) {
 				});
 			},
 
-			deleteItem: function (item) {
-				return $.ajax({
+            deleteItem: function (item) {
+                var d = $.Deferred();
+				$.ajax({
 					type: 'DELETE',
-					url: '/Umbraco/Surface/FormStorage/DeleteFormSubmissionRecord/?submissionID=' + item.submissionID,
-					dataType: 'json'
-				});
+                    url: '/Umbraco/Surface/FormStorage/DeleteFormSubmissionRecord/?submissionID=' + item.submissionID,
+                    dataType: 'json'
+                }).done(function (response) {
+                    if (response.success === true) {
+                        d.resolve();
+                    }
+                    else {
+                        d.reject();
+                    }
+                });
+                return d.promise();
 			}
 
 		},

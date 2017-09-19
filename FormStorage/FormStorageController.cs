@@ -176,6 +176,7 @@ namespace FormStorage.Controllers
         [HttpDelete]
         public ActionResult DeleteFormSubmissionRecord(int submissionID)
 		{
+            bool success = true;
             using (var scope = DatabaseConnection.GetTransaction())
             {
                 try
@@ -185,20 +186,29 @@ namespace FormStorage.Controllers
                 catch (Exception ex)
                 {
                     Log.Error("Unable to delete from FormStorageSubmissions table : " + ex.Message);
-                    return new EmptyResult();
+                    success = false;
                 }
-                try
+                if (success)
                 {
-                    DatabaseConnection.Execute("DELETE FROM FormStorageEntries WHERE submissionID=@0", submissionID);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error("Unable to delete from FormStorageEntries table : " + ex.Message);
-                    return new EmptyResult();
+                    try
+                    {
+                        DatabaseConnection.Execute("DELETE FROM FormStorageEntries WHERE submissionID=@0", submissionID);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("Unable to delete from FormStorageEntries table : " + ex.Message);
+                        success = false;
+                    }
                 }
                 scope.Complete();
             }
-            return new EmptyResult();
+            var result = new
+            {
+                success = success,
+            };
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            string resultJSON = javaScriptSerializer.Serialize(result);
+            return Content(resultJSON, "application/json");
         }
 
         [HttpGet]
