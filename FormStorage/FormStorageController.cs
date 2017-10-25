@@ -241,7 +241,14 @@ namespace FormStorage.Controllers
                     currentLine += currentRecord["IP"].ToString().WrapQuotes() + ",";
                     foreach (string currentFieldName in fieldNames.Split(','))
                     {
-                        currentLine += currentRecord[currentFieldName].ToString().WrapQuotes() + ",";
+                        if (currentRecord.ContainsKey(currentFieldName))
+                        {
+                            currentLine += currentRecord[currentFieldName].ToString().WrapQuotes() + ",";
+                        }
+                        else
+                        {
+                            currentLine += "\"\",";
+                        }
                     }
                     currentLine = currentLine.Substring(0, currentLine.Length - 1);
                     resultData += currentLine + "\n";
