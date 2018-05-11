@@ -3,7 +3,7 @@
         {
             alias: "FormStorageV7",
             name: "Form Storage",
-            icon: "icon-inbox",
+            icon: "icon-code",
             group: "Form Storage",
             editor: {
                 view: "~/App_Plugins/FormStorage/FormStorage.html",
@@ -18,13 +18,13 @@
 						view: "textstring"
 					},
 					{
-						label: "Grid Height",
+						label: "Grid height",
 						description: "The height of the grid, in pixels. When left blank, the default value is 300.",
 						key: "gridHeight",
 						view: "number"
 					},
 					{
-						label: "Records Per Page",
+						label: "Records per page",
 						description: "The number of records displayed per page. When left blank, the default value is 5.",
 						key: "recordsPerPage",
 						view: "number"
@@ -39,7 +39,7 @@
         '~/App_Plugins/FormStorage/js/FormStorage.controller.js'
     ],
 	css: [
-		'//cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css',
-		'//cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css'
+		'~/App_Plugins/FormStorage/css/jsgrid.min.css',
+		'~/App_Plugins/FormStorage/css/jsgrid-theme.min.css'
 	]
 }

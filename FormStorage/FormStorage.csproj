@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\UmbracoTestbed\UmbracoTestbed\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -76,6 +76,15 @@
     <Compile Include="FormStorageSchema.cs" />
     <Compile Include="IDictionaryExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Plugins\FormStorage\css\jsgrid-theme.min.css" />
+    <Content Include="App_Plugins\FormStorage\css\jsgrid.min.css" />
+    <Content Include="App_Plugins\FormStorage\FormStorage.html" />
+    <Content Include="App_Plugins\FormStorage\js\FormStorage.controller.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App_Plugins\FormStorage\package.manifest" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

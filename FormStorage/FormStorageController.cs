@@ -56,7 +56,7 @@ namespace FormStorage.Controllers
                 {
                     fieldList = new List<string>(fieldNames.Split(','));
                     fieldList.Add("IP");
-                    fieldList.Add("period");
+                    fieldList.Add("datetime");
                 }
                 bool filterApplied = false;
                 if (fieldList != null)
@@ -103,8 +103,9 @@ namespace FormStorage.Controllers
                             if (((IDictionary<string, Object>)currentRecord).ContainsKey(fieldName))
                             {
                                 string filterValue = Request.Params[fieldName];
-                                if (fieldName == "period")
+                                if (fieldName == "datetime")
                                 {
+                                    filterValue = Request.Params["period"];
                                     if (!string.IsNullOrEmpty(filterValue))
                                     {
                                         int filterDays = 0;

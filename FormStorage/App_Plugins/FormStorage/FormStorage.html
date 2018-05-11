@@ -1,0 +1,20 @@
+<div ng-controller="FormStorage.FormStorageController">
+	<h3>Submissions</h3>
+	<div id="toolbar" style="margin-bottom: 10px;">
+		<label for="periodFilter" style="margin-top:5px;">Occurring</label>
+		<select id="periodFilter">
+			<option value="">Ever</option>
+			<option value="0">Today</option>
+			<option value="1">Yesterday and Today</option>
+			<option value="7">In the Last 7 Days</option>
+			<option value="30">In the Last 30 Days</option>
+			<option value="60">In the Last 60 Days</option>
+			<option value="90">In the Last 90 Days</option>
+			<option value="180">In the Last 180 Days</option>
+			<option value="365">In the Last 365 Days</option>
+		</select>
+		<button class="btn umb-button__button "id="downloadButton" type="button">Download</button>
+	</div>
+	<h2 id="loadingLabel">Loading...</h2>
+	<div id="submissionsGrid"></div>
+</div>

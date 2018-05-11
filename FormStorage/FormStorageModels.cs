@@ -20,6 +20,7 @@ namespace FormStorage.Models
         public string FieldAlias { get; set; }
 
         [Column("value")]
+        [Length(4000)]
         public string Value { get; set; }
     }
 	
