@@ -260,7 +260,16 @@ namespace FormStorage.Controllers
 
             byte[] byteData = Encoding.UTF8.GetBytes(resultData);
             byte[] fileContents = Encoding.UTF8.GetPreamble().Concat(byteData).ToArray();
-            return File(fileContents, "text/csv", downloadfileName);
+
+            System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = downloadfileName,
+                Inline = false
+            };
+            Response.Headers.Add("Content-Disposition", cd.ToString());
+            Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+            return File(fileContents, "text/csv");
         }
 
         [HttpGet]

@@ -36,7 +36,12 @@ angular.module('umbraco')
 							if (value != '') {
 								filterString += '&' + key + '=' + value;
 							}
-						});
+                        });
+
+                        if ($('#periodFilter').val() != '') {
+                            filterString += '&datetime=&period=' + $('#periodFilter').val();
+                        }
+
 						var sortingString = '';
 						var sortingObject = $('#submissionsGrid').jsGrid('getSorting');
 						$.each(sortingObject, function(key, value) {
@@ -53,7 +58,6 @@ angular.module('umbraco')
 					});
 					$('#periodFilter').change(function() {
 						var filterObject = $('#submissionsGrid').jsGrid('getFilter');
-						filterObject['period'] = this.value;
 						$("#submissionsGrid").jsGrid("loadData", filterObject);
 					});
 				},
@@ -93,7 +97,10 @@ function setupSubmissionsGrid(alias, gridHeight, recordsPerPage, fields) {
 
 		controller: {
 
-			loadData: function(filter) {
+            loadData: function (filter) {
+                if ($('#periodFilter').val() != '') {
+                    filter['period'] = $('#periodFilter').val();
+                }
 				return $.ajax({
 					type: 'GET',
 					url: '/Umbraco/Surface/FormStorage/FetchFormSubmissionData/?alias=' + escape(alias),
@@ -118,12 +125,6 @@ function setupSubmissionsGrid(alias, gridHeight, recordsPerPage, fields) {
 				return d.promise();
 			}
 
-		},
-		
-		onDataLoading: function(args) {
-			if ((args.filter.period === '') || (typeof args.filter.period == 'undefined')) {
-				$('#periodFilter').val('');
-			}
 		},
 
 		fields: fields
