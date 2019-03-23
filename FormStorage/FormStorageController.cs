@@ -7,7 +7,6 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -38,9 +37,27 @@ namespace FormStorage.Controllers
             {
                 List<FormStorageSubmissionModel> fetchedSubmissionRecords = new List<FormStorageSubmissionModel>();
                 string querySQL = "SELECT * FROM FormStorageSubmissions WHERE formID = @formID";
+
+                string filterValue = Request.Params["period"];
+                DateTime filterDate = DateTime.Now.Date;
+                if (!string.IsNullOrEmpty(filterValue))
+                {
+                    int filterDays = 0;
+                    int.TryParse(filterValue, out filterDays);
+                    filterDate = filterDate.AddDays(filterDays * -1);
+                }
+
                 try
                 {
-                    fetchedSubmissionRecords = DatabaseConnection.Query<FormStorageSubmissionModel>(querySQL, new { formID = formID }).ToList();
+                    if (!string.IsNullOrEmpty(filterValue))
+                    {
+                        querySQL += " AND datetime >= @datetime";
+                        fetchedSubmissionRecords = DatabaseConnection.Query<FormStorageSubmissionModel>(querySQL, new { formID = formID, datetime = filterDate }).ToList();
+                    }
+                    else
+                    {
+                        fetchedSubmissionRecords = DatabaseConnection.Query<FormStorageSubmissionModel>(querySQL, new { formID = formID }).ToList();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -102,24 +119,7 @@ namespace FormStorage.Controllers
                         {
                             if (((IDictionary<string, Object>)currentRecord).ContainsKey(fieldName))
                             {
-                                string filterValue = Request.Params[fieldName];
-                                if (fieldName == "datetime")
-                                {
-                                    filterValue = Request.Params["period"];
-                                    if (!string.IsNullOrEmpty(filterValue))
-                                    {
-                                        int filterDays = 0;
-                                        int.TryParse(filterValue, out filterDays);
-
-                                        TimeSpan timeSpan = DateTime.Now.Subtract((DateTime)currentRecord["datetime"]);
-                                        if (timeSpan.TotalDays > (filterDays + 1))
-                                        {
-                                            filteredOut = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                                else
+                                filterValue = Request.Params[fieldName];
                                 if (!currentRecord[fieldName].ToString().ToUpper().Contains(filterValue.ToUpper()))
                                 {
                                     filteredOut = true;
